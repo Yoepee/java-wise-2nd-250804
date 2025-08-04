@@ -10,8 +10,8 @@ public class App {
     private SystemController systemController;
     private WiseSayingController wiseSayingController;
 
-    App() {
-        this.sc = AppContext.sc;
+    App(Scanner sc) {
+        this.sc = sc;
         this.systemController = AppContext.systemController;
         this.wiseSayingController = AppContext.wiseSayingController;
     }
