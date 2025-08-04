@@ -12,31 +12,24 @@ public class App {
         this.sc = AppContext.sc;
         this.systemController = AppContext.systemController;
     }
+
     public void run() {
         systemController.start();
+        String input = """
+                등록
+                안녕!!
+                """;
 
-        while(true){
-            String cmd = sc.nextLine();
-            System.out.println("명령어: " + cmd);
-            if(cmd.equals("종료")) break;
-//            switch (cmd) {
-//                case "종료"-> {
-//                    systemController.stop();
-//                    System.out.println("앱을 종료합니다.");
-//                    return;
-//                }
-//                default -> {;
-//                    String actionName = systemController.getCommand();
-//                    if (actionName.equals("종료")) {
-//                        systemController.stop();
-//                        System.out.println("앱을 종료합니다.");
-//                        return;
-//                    }
-//                    // 여기에 다른 명령어 처리 로직을 추가할 수 있습니다.
-//                    System.out.println("알 수 없는 명령어입니다: " + actionName);
-//                }
-//            }
-        }
+        Scanner scanner  = new Scanner(input);
+        String cmd = scanner.nextLine();
+        String content = scanner.nextLine();
+        System.out.println("명령어: " + cmd);
+        System.out.println("내용: " + content);
+//        while(true){
+//            String cmd = sc.nextLine();
+//            System.out.println("명령어: " + cmd);
+//            if(cmd.equals("종료")) break;
+//        }
 
         systemController.stop();
     }
