@@ -17,10 +17,10 @@ public class App {
 
     public void run() {
         PrintStream ORIGINAL_OUT = System.out;
-        systemController.start();
         ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(byteArrayOutputStream, true);
         System.setOut(printStream);
+        systemController.start();
 
         System.out.println("반갑습니다.");
         String input = """
