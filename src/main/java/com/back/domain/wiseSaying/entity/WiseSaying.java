@@ -12,8 +12,8 @@ public class WiseSaying {
     private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public WiseSaying(String content, String author) {
-        this.content = "";
-        this.author = "";
+        this.content = content;
+        this.author = author;
     }
 
     public int getId() {

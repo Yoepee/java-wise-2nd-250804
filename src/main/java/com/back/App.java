@@ -9,6 +9,7 @@ public class App {
     private Scanner sc;
     private SystemController systemController;
     private WiseSayingController wiseSayingController;
+    private static int PAGE_SIZE = 5;
 
     App(Scanner sc) {
         this.sc = sc;
@@ -25,7 +26,7 @@ public class App {
             switch (cmd) {
                 case "등록" -> wiseSayingController.addWiseSaying();
                 case "목록" -> {
-                    wiseSayingController.printWiseSayingList();
+                    wiseSayingController.printWiseSayingList(PAGE_SIZE, 1, null, null);
                 }
 //                case "빌드" -> wiseSayingController.build();
                 case "삭제", "수정" -> {

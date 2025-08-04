@@ -22,4 +22,31 @@ public class WiseSayingRepository {
             ws.setModifyDate(LocalDateTime.now());
         }
     }
+
+    public int getWiseSayingCount(String keywordType, String keyword) {
+        boolean isSearch = keywordType != null && keyword != null;
+
+        return (int) wiseSayings.stream()
+                .filter(ws -> {
+                    if (!isSearch) return true;
+                    String field = keywordType.equals("content") ? ws.getContent() : ws.getAuthor();
+                    return field.toLowerCase().contains(keyword.toLowerCase());
+                })
+                .count();
+    }
+
+    public List<WiseSaying> getWiseSayings(int offset, int limit, String keywordType, String keyword) {
+        boolean isSearch = keywordType != null && keyword != null;
+
+        return wiseSayings.stream()
+                .filter(ws -> {
+                    if (!isSearch) return true;
+                    String field = keywordType.equals("content") ? ws.getContent() : ws.getAuthor();
+                    return field.toLowerCase().contains(keyword.toLowerCase());
+                })
+                .sorted((a, b) -> b.getId() - a.getId())
+                .skip(offset)
+                .limit(limit)
+                .toList();
+    }
 }
