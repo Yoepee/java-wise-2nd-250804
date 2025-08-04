@@ -1,6 +1,6 @@
 package com.back.domain.wiseSaying.controller;
 
-import com.back.AppContext;
+import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.service.WiseSayingService;
 
 import java.util.Scanner;
@@ -9,8 +9,9 @@ public class WiseSayingController {
     WiseSayingService wiseSayingService;
     private static Scanner sc;
 
-    public WiseSayingController() {
-        sc = AppContext.sc;
+    public WiseSayingController(Scanner sc) {
+        this.sc = sc;
+        wiseSayingService = new WiseSayingService();
     }
 
     public void addWiseSaying() {
@@ -19,8 +20,8 @@ public class WiseSayingController {
         System.out.print("작가: ");
         String author = sc.nextLine().trim();
 
-        int id = 0;
-        System.out.println("%d번 명언이 추가되었습니다.".formatted(id));
+        WiseSaying ws = wiseSayingService.addWiseSaying(content, author);
+        System.out.println("%d번 명언이 추가되었습니다.".formatted(ws.getId()));
     }
 
     public void printWiseSayingList() {

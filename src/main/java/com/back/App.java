@@ -12,8 +12,8 @@ public class App {
 
     App(Scanner sc) {
         this.sc = sc;
-        this.systemController = AppContext.systemController;
-        this.wiseSayingController = AppContext.wiseSayingController;
+        this.systemController = new SystemController(sc);
+        this.wiseSayingController = new WiseSayingController(sc);
     }
 
     public void run() {

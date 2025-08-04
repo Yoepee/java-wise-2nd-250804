@@ -2,27 +2,23 @@ package com.back;
 
 import java.util.Arrays;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Rq {
     private String actionName;
-    private Map<String, String> queryParams;
+    private Map<String, String> paramsMap;
 
     public Rq(String cmd) {
         String[] cmdBits = cmd.split("\\?", 2);
-        actionName = cmdBits[0].trim();
+        actionName = cmdBits[0];
+        String queryString = cmdBits.length > 1 ? cmdBits[1].trim() : "";
 
-        if (cmdBits.length > 1) {
-            String queryString = cmdBits[1].trim();
-            queryParams = Map.ofEntries(
-                Arrays.stream(queryString.split("&"))
-                    .map(e -> e.split("=", 2))
-                    .filter(parts -> parts.length == 2)
-                    .map(parts -> Map.entry(parts[0].trim(), parts[1].trim()))
-                    .toArray(Map.Entry[]::new)
-            );
-        } else {
-            queryParams = Map.of();
-        }
+        String[] queryStringBits = queryString.split("&");
+
+        paramsMap = Arrays.stream(queryStringBits)
+                .map(e -> e.split("=", 2))
+                .filter(e->e.length ==2)
+                .collect(Collectors.toMap(e -> e[0].trim(), e->e[1].trim()));
     }
 
     public String getActionName() {
@@ -31,7 +27,7 @@ public class Rq {
 
     public String getParam(String paramName, String defaultValue) {
        try {
-            return queryParams.getOrDefault(paramName, defaultValue);
+            return paramsMap.getOrDefault(paramName, defaultValue);
         } catch (NullPointerException e) {
             return defaultValue;
         }

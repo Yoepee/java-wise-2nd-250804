@@ -1,7 +1,5 @@
 package com.back.domain.wiseSaying.entity;
 
-import com.back.AppContext;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -11,7 +9,7 @@ public class WiseSaying {
     private String author;
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
-    private static final DateTimeFormatter DATE_TIME_FORMAT = AppContext.DATE_TIME_FORMAT;
+    private static final DateTimeFormatter DATE_TIME_FORMAT = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
     public WiseSaying(String content, String author) {
         this.content = "";
