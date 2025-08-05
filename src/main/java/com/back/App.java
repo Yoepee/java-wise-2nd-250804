@@ -3,18 +3,14 @@ package com.back;
 import com.back.domain.system.controller.SystemController;
 import com.back.domain.wiseSaying.controller.WiseSayingController;
 
-import java.util.Scanner;
-
 public class App {
-    private Scanner sc;
     private SystemController systemController;
     private WiseSayingController wiseSayingController;
     private static int PAGE_SIZE = 5;
 
     App() {
-        this.sc = AppContext.sc;
-        this.systemController = new SystemController();
-        this.wiseSayingController = new WiseSayingController();
+        this.systemController = AppContext.systemController;
+        this.wiseSayingController = AppContext.wiseSayingController;
     }
 
     public void run() {

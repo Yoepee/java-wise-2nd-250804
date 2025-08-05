@@ -13,7 +13,7 @@ public class WiseSayingController {
 
     public WiseSayingController() {
         this.sc = AppContext.sc;
-        wiseSayingService = new WiseSayingService();
+        wiseSayingService = AppContext.wiseSayingService;
     }
 
     public void addWiseSaying() {
