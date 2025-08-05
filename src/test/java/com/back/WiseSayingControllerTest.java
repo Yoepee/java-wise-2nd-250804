@@ -125,4 +125,40 @@ public class WiseSayingControllerTest {
                 .contains("1 / 홍길동 / 현재와 자신을 사랑하라.")
                 .doesNotContain("1 / 작자미상 / 현재를 사랑하라.");
     }
+
+    @Test
+    @DisplayName("키워드 검색")
+    public void t8() {
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                과거에 집착하지 마라.
+                작자미상
+                목록?keywordType=content&keyword=과거
+                """);
+
+        assertThat(rs)
+                .contains("2 / 작자미상 / 과거에 집착하지 마라. / ")
+                .doesNotContain("1 / 작자미상 / 현재를 사랑하라. / ");
+    }
+
+    @Test
+    @DisplayName("잘못된 키워드 검색")
+    public void t9() {
+        String rs = AppTestRunner.run("""
+                등록
+                현재를 사랑하라.
+                작자미상
+                등록
+                과거에 집착하지 마라.
+                작자미상
+                목록?keywordType=contenttt&keyword=과거
+                """);
+
+        assertThat(rs).contains("keywordType는 'content' 또는 'author'만 가능합니다.")
+                .doesNotContain("2 / 작자미상 / 과거에 집착하지 마라. / ")
+                .doesNotContain("1 / 작자미상 / 현재를 사랑하라. / ");
+    }
 }

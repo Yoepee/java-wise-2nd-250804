@@ -68,6 +68,10 @@ public class WiseSayingController {
         int page = rq.getParamAsInt("page", 1);
         String keywordType = rq.getParam("keywordType", null);
         String keyword = rq.getParam("keyword", null);
+        if (!(keywordType.equals("content") || keywordType.equals("author"))) {
+            System.out.println("keywordType는 'content' 또는 'author'만 가능합니다.");
+            return;
+        }
 
         int totalWiseSayingCount = wiseSayingService.getWiseSayingCount(keywordType, keyword);
         if (totalWiseSayingCount == 0) {
