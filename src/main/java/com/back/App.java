@@ -24,6 +24,10 @@ public class App {
             String cmd = systemController.getCommand();
             if (cmd.equals("종료")) break;
             switch (cmd) {
+                case "종료" -> {
+                    systemController.stop();
+                    return;
+                }
                 case "등록" -> wiseSayingController.addWiseSaying();
                 case "목록" -> {
                     wiseSayingController.printWiseSayingList(PAGE_SIZE, 1, null, null);
@@ -44,7 +48,5 @@ public class App {
                 default -> System.out.println("알 수 없는 명령입니다.");
             }
         }
-
-        systemController.stop();
     }
 }

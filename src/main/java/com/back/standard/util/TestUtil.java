@@ -9,7 +9,7 @@ public class TestUtil {
     private static PrintStream CURRENT_OUT;
 
     public static Scanner genScanner(String input) {
-        return new Scanner(input);
+        return new Scanner(input + "\n종료");
     }
 
     public static ByteArrayOutputStream setOutToByteArray() {

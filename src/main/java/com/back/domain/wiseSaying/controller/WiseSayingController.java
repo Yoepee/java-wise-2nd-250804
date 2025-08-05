@@ -48,7 +48,6 @@ public class WiseSayingController {
 
         int offset = (page - 1) * pageSize;
         List<WiseSaying> wiseSayings = wiseSayingService.getWiseSayings(offset, pageSize, keywordType, keyword);
-        System.out.println(wiseSayings);
         System.out.println("번호 / 작가 / 명언 / 작성일 / 수정일");
         System.out.println("-------------------------");
         for (WiseSaying ws : wiseSayings) {
