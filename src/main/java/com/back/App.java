@@ -28,27 +28,19 @@ public class App {
                 case "목록" -> {
                     wiseSayingController.printWiseSayingList(PAGE_SIZE, 1, null, null);
                 }
-                case "삭제" -> {
+//                case "빌드" -> wiseSayingController.build();
+                case "삭제", "수정" -> {
                     int id = systemController.getRq().getParamAsInt("id", -1);
                     if (id == -1) {
                         System.out.println("유효하지 않은 id 입니다.");
                         continue;
                     }
-                    wiseSayingController.removeWiseSaying(id);
+                    if (cmd.equals("수정")) {
+                        wiseSayingController.modifyWiseSaying(id);
+                    } else {
+                        wiseSayingController.removeWiseSaying(id);
+                    }
                 }
-//                case "빌드" -> wiseSayingController.build();
-//                case "삭제", "수정" -> {
-//                    int id = systemController.getRq().getParamAsInt("id", -1);
-//                    if (id == -1) {
-//                        System.out.println("유효하지 않은 id 입니다.");
-//                        continue;
-//                    }
-//                    if (cmd.equals("수정")) {
-//                        AppContext.wiseSayingController.update(id);
-//                    } else {
-//                        AppContext.wiseSayingController.remove(id);
-//                    }
-//                }
                 default -> System.out.println("알 수 없는 명령입니다.");
             }
         }

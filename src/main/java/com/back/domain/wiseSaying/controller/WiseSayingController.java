@@ -26,6 +26,22 @@ public class WiseSayingController {
         System.out.println("%d번 명언이 추가되었습니다.".formatted(ws.getId()));
     }
 
+    public void modifyWiseSaying(int id) {
+        WiseSaying ws = wiseSayingService.findWiseSayingById(id);
+        if (ws == null) {
+            System.out.println("%d번 명언이 존재하지 않습니다.".formatted(id));
+            return;
+        } else {
+            System.out.println("명언(기존) : %s".formatted(ws.getContent()));
+            System.out.print("명언: ");
+            String content = sc.nextLine().trim();
+            System.out.println("작가(기존) : %s".formatted(ws.getAuthor()));
+            System.out.print("작가: ");
+            String author = sc.nextLine().trim();
+            wiseSayingService.modifyWiseSaying(ws, content, author);
+        }
+    }
+
     public void removeWiseSaying(int id) {
         WiseSaying ws = wiseSayingService.removeWiseSaying(id);
         if (ws == null) {

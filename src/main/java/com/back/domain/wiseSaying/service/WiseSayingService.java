@@ -19,6 +19,13 @@ public class WiseSayingService {
         return ws;
     }
 
+    public WiseSaying modifyWiseSaying(WiseSaying ws, String content, String author) {
+        ws.setContent(content);
+        ws.setAuthor(author);
+        wiseSayingRepository.save(ws);
+        return ws;
+    }
+
     public WiseSaying removeWiseSaying(int id) {
         WiseSaying wiseSaying = wiseSayingRepository.findWiseSayingById(id);
         if (wiseSaying == null) return null; // 해당 id의 명언이 존재하지 않음
@@ -31,5 +38,8 @@ public class WiseSayingService {
     }
     public List<WiseSaying> getWiseSayings(int offset, int limit, String keywordType, String keyword) {
         return wiseSayingRepository.getWiseSayings(offset, limit, keywordType, keyword);
+    }
+    public WiseSaying findWiseSayingById(int id) {
+        return wiseSayingRepository.findWiseSayingById(id);
     }
 }
