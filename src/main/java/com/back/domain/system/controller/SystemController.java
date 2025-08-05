@@ -7,14 +7,9 @@ import java.util.Scanner;
 
 public class SystemController {
     private Scanner sc;
-    private Rq rq;
 
     public SystemController(){
         this.sc = AppContext.sc;
-    }
-
-    public Rq getRq() {
-        return rq;
     }
 
     public void start() {

@@ -1,8 +1,15 @@
 package com.back.domain.wiseSaying.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+@Getter
+@Setter
+@ToString
 public class WiseSaying {
     private int id;
     private String content;
@@ -16,36 +23,11 @@ public class WiseSaying {
         this.author = author;
     }
 
-    public int getId() {
-        return id;
-    }
-    public String getContent() {
-        return content;
-    }
-    public String getAuthor() {
-        return author;
-    }
     public String getCreateDate() {
         return createDate.format(DATE_TIME_FORMAT);
     }
     public String getModifyDate() {
         return modifyDate.format(DATE_TIME_FORMAT);
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-    public void setContent(String content) {
-        this.content = content;
-    }
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-    public void setModifyDate(LocalDateTime modifyDate) {
-        this.modifyDate = modifyDate;
     }
 
     public boolean isNew() {
