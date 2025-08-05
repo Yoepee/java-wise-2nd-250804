@@ -23,6 +23,15 @@ public class WiseSayingRepository {
         }
     }
 
+    public WiseSaying remove(int id) {
+        WiseSaying ws = findWiseSayingById(id);
+        if (ws != null) {
+            wiseSayings.remove(ws);
+            return ws;
+        }
+        return null;
+    }
+
     public int getWiseSayingCount(String keywordType, String keyword) {
         boolean isSearch = keywordType != null && keyword != null;
 
@@ -48,5 +57,12 @@ public class WiseSayingRepository {
                 .skip(offset)
                 .limit(limit)
                 .toList();
+    }
+
+    public WiseSaying findWiseSayingById(int id) {
+        return wiseSayings.stream()
+                .filter(ws -> ws.getId() == id)
+                .findFirst()
+                .orElse(null);
     }
 }

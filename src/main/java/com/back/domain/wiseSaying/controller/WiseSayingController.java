@@ -26,6 +26,15 @@ public class WiseSayingController {
         System.out.println("%d번 명언이 추가되었습니다.".formatted(ws.getId()));
     }
 
+    public void removeWiseSaying(int id) {
+        WiseSaying ws = wiseSayingService.removeWiseSaying(id);
+        if (ws == null) {
+            System.out.println("해당 id의 명언이 존재하지 않습니다.");
+        } else {
+            System.out.println("%d번 명언이 삭제되었습니다.".formatted(ws.getId()));
+        }
+    }
+
     public void printWiseSayingList(int pageSize, int page, String keywordType, String keyword) {
         int totalWiseSayingCount = wiseSayingService.getWiseSayingCount(keywordType, keyword);
         if (totalWiseSayingCount == 0) {

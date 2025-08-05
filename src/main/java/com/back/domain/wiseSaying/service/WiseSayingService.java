@@ -19,6 +19,10 @@ public class WiseSayingService {
         return ws;
     }
 
+    public WiseSaying removeWiseSaying(int id) {
+        return wiseSayingRepository.remove(id);
+    }
+
     public int getWiseSayingCount(String keywordType, String keyword) {
         return wiseSayingRepository.getWiseSayingCount(keywordType, keyword);
     }
