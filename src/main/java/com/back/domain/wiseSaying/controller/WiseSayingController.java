@@ -53,20 +53,15 @@ public class WiseSayingController {
         for (WiseSaying ws : wiseSayings) {
             System.out.println("%d / %s / %s / %s / %s".formatted(ws.getId(), ws.getAuthor(), ws.getContent(), ws.getCreateDate(), ws.getModifyDate()));
         }
+        printWiseSayingPage(page, totalPages);
+    }
+
+    public void printWiseSayingPage(int page, int totalPages) {
         System.out.println("-------------------------");
         System.out.print("페이지 : ");
         for (int i = 1; i <= totalPages; i++) {
-            if (i == page) {
-                System.out.printf("[%d] ", i);
-            } else {
-                System.out.printf("%d ", i);
-            }
-
-            if (i != totalPages) {
-                System.out.print("/ ");
-            } else {
-                System.out.println();
-            }
+            System.out.printf((i == page ? "[%d] " : "%d "), i);
+            System.out.print(i == totalPages ? "\n " : "/ ");
         }
     }
 }
