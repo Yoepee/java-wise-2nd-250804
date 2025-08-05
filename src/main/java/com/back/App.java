@@ -11,10 +11,10 @@ public class App {
     private WiseSayingController wiseSayingController;
     private static int PAGE_SIZE = 5;
 
-    App(Scanner sc) {
-        this.sc = sc;
-        this.systemController = new SystemController(sc);
-        this.wiseSayingController = new WiseSayingController(sc);
+    App() {
+        this.sc = AppContext.sc;
+        this.systemController = new SystemController();
+        this.wiseSayingController = new WiseSayingController();
     }
 
     public void run() {

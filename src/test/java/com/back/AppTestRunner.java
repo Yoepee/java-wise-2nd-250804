@@ -10,7 +10,9 @@ public class AppTestRunner {
         Scanner scanner = TestUtil.genScanner(input);
 
         ByteArrayOutputStream output = TestUtil.setOutToByteArray();
-        new App(scanner).run();
+
+        AppContext.sc = scanner;
+        new App().run();
 
         return output.toString();
     }
