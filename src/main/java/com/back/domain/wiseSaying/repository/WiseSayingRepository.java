@@ -23,13 +23,9 @@ public class WiseSayingRepository {
         }
     }
 
-    public WiseSaying remove(int id) {
-        WiseSaying ws = findWiseSayingById(id);
-        if (ws != null) {
-            wiseSayings.remove(ws);
-            return ws;
-        }
-        return null;
+    public WiseSaying remove(WiseSaying ws) {
+        wiseSayings.remove(ws);
+        return ws;
     }
 
     public int getWiseSayingCount(String keywordType, String keyword) {

@@ -29,7 +29,7 @@ public class WiseSayingController {
     public void removeWiseSaying(int id) {
         WiseSaying ws = wiseSayingService.removeWiseSaying(id);
         if (ws == null) {
-            System.out.println("해당 id의 명언이 존재하지 않습니다.");
+            System.out.println("%d번 명언이 존재하지 않습니다.".formatted(id));
         } else {
             System.out.println("%d번 명언이 삭제되었습니다.".formatted(ws.getId()));
         }

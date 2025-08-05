@@ -20,7 +20,10 @@ public class WiseSayingService {
     }
 
     public WiseSaying removeWiseSaying(int id) {
-        return wiseSayingRepository.remove(id);
+        WiseSaying wiseSaying = wiseSayingRepository.findWiseSayingById(id);
+        if (wiseSaying == null) return null; // 해당 id의 명언이 존재하지 않음
+
+        return wiseSayingRepository.remove(wiseSaying);
     }
 
     public int getWiseSayingCount(String keywordType, String keyword) {
