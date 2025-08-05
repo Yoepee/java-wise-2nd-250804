@@ -25,12 +25,10 @@ public class SystemController {
         sc.close();
     }
 
-    public String getCommand() {
+    public Rq getCommand() {
         System.out.print("명령) ");
         String cmd = sc.nextLine().trim();
 
-        rq = new Rq(cmd);
-
-        return rq.getActionName();
+        return new Rq(cmd);
     }
 }

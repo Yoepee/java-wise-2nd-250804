@@ -17,30 +17,17 @@ public class App {
         systemController.start();
 
         while (true) {
-            String cmd = systemController.getCommand();
-            if (cmd.equals("종료")) break;
-            switch (cmd) {
+            Rq rq = systemController.getCommand();
+            String actionName = rq.getActionName();
+            switch (actionName) {
                 case "종료" -> {
                     systemController.stop();
                     return;
                 }
                 case "등록" -> wiseSayingController.addWiseSaying();
-                case "목록" -> {
-                    wiseSayingController.printWiseSayingList(PAGE_SIZE, 1, null, null);
-                }
-//                case "빌드" -> wiseSayingController.build();
-                case "삭제", "수정" -> {
-                    int id = systemController.getRq().getParamAsInt("id", -1);
-                    if (id == -1) {
-                        System.out.println("유효하지 않은 id 입니다.");
-                        continue;
-                    }
-                    if (cmd.equals("수정")) {
-                        wiseSayingController.modifyWiseSaying(id);
-                    } else {
-                        wiseSayingController.removeWiseSaying(id);
-                    }
-                }
+                case "목록" -> wiseSayingController.printWiseSayingList(PAGE_SIZE, rq);
+                case "삭제" -> wiseSayingController.removeWiseSaying(rq);
+                case "수정" -> wiseSayingController.modifyWiseSaying(rq);
                 default -> System.out.println("알 수 없는 명령입니다.");
             }
         }

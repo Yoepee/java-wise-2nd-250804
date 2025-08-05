@@ -1,6 +1,7 @@
 package com.back.domain.wiseSaying.controller;
 
 import com.back.AppContext;
+import com.back.Rq;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.service.WiseSayingService;
 
@@ -26,7 +27,13 @@ public class WiseSayingController {
         System.out.println("%d번 명언이 추가되었습니다.".formatted(ws.getId()));
     }
 
-    public void modifyWiseSaying(int id) {
+    public void modifyWiseSaying(Rq rq) {
+        int id = rq.getParamAsInt("id", -1);
+        if (id == -1) {
+            System.out.println("유효하지 않은 id 입니다.");
+            return;
+        }
+
         WiseSaying ws = wiseSayingService.findWiseSayingById(id);
         if (ws == null) {
             System.out.println("%d번 명언이 존재하지 않습니다.".formatted(id));
@@ -42,7 +49,13 @@ public class WiseSayingController {
         }
     }
 
-    public void removeWiseSaying(int id) {
+    public void removeWiseSaying(Rq rq) {
+        int id = rq.getParamAsInt("id", -1);
+        if (id == -1) {
+            System.out.println("유효하지 않은 id 입니다.");
+            return;
+        }
+
         WiseSaying ws = wiseSayingService.removeWiseSaying(id);
         if (ws == null) {
             System.out.println("%d번 명언이 존재하지 않습니다.".formatted(id));
@@ -51,7 +64,11 @@ public class WiseSayingController {
         }
     }
 
-    public void printWiseSayingList(int pageSize, int page, String keywordType, String keyword) {
+    public void printWiseSayingList(int pageSize, Rq rq) {
+        int page = rq.getParamAsInt("page", 1);
+        String keywordType = rq.getParam("keywordType", null);
+        String keyword = rq.getParam("keyword", null);
+
         int totalWiseSayingCount = wiseSayingService.getWiseSayingCount(keywordType, keyword);
         if (totalWiseSayingCount == 0) {
             System.out.println("등록된 명언이 없습니다.");
