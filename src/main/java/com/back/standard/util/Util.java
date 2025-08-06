@@ -99,6 +99,10 @@ public class Util {
                 return false;
             }
         }
+
+        public static void rmdir(String dirPath) {
+            delete(dirPath);
+        }
     }
 
     public static class json {

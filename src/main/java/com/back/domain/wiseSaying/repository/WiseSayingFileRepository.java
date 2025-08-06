@@ -2,10 +2,19 @@ package com.back.domain.wiseSaying.repository;
 
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.standard.util.Util;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Map;
 
+@Getter
+@Setter
 public class WiseSayingFileRepository {
+    private String tableDirPath;
+
+    public WiseSayingFileRepository() {
+        this.tableDirPath = "db/wiseSaying";
+    }
     public void save(WiseSaying wiseSaying) {
         if (wiseSaying.isNew()) {
             int newId = getLastId()+1;
@@ -43,14 +52,10 @@ public class WiseSayingFileRepository {
         return lastId;
     }
 
-    public String getTableDirPath() {
-        return "db/wiseSaying";
-    }
-
     public String getEntityFilePath(int id) {
         return getTableDirPath()+"/%d.json".formatted(id);
     }
     public String getLastIdFilePath() {
-        return getTableDirPath()+"lastId.json";
+        return getTableDirPath()+"/lastId.txt";
     }
 }
