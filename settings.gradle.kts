@@ -1,1 +1,0 @@
-rootProject.name = "wiseSaying-250804"
