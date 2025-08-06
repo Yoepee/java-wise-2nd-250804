@@ -7,8 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class WiseSayingRepository {
-    List<WiseSaying> wiseSayings = new ArrayList<>();
-    private static int lastId = 0;
+    List<WiseSaying> wiseSayings;
+    private static int lastId;
+
+    public WiseSayingRepository(){
+        this.wiseSayings = new ArrayList<>();
+        this.lastId = 0;
+    }
 
     public void save(WiseSaying ws) {
         LocalDateTime now = LocalDateTime.now();
@@ -29,26 +34,14 @@ public class WiseSayingRepository {
     }
 
     public int getWiseSayingCount(String keywordType, String keyword) {
-        boolean isSearch = keywordType != null && keyword != null;
-
         return (int) wiseSayings.stream()
-                .filter(ws -> {
-                    if (!isSearch) return true;
-                    String field = keywordType.equals("content") ? ws.getContent() : ws.getAuthor();
-                    return field.toLowerCase().contains(keyword.toLowerCase());
-                })
+                .filter(ws -> hasWiseSayingWithKeyword(ws, keywordType, keyword))
                 .count();
     }
 
     public List<WiseSaying> getWiseSayings(int offset, int limit, String keywordType, String keyword) {
-        boolean isSearch = keywordType != null && keyword != null;
-
         return wiseSayings.stream()
-                .filter(ws -> {
-                    if (!isSearch) return true;
-                    String field = keywordType.equals("content") ? ws.getContent() : ws.getAuthor();
-                    return field.toLowerCase().contains(keyword.toLowerCase());
-                })
+                .filter(ws -> hasWiseSayingWithKeyword(ws, keywordType, keyword))
                 .sorted((a, b) -> b.getId() - a.getId())
                 .skip(offset)
                 .limit(limit)
@@ -60,5 +53,22 @@ public class WiseSayingRepository {
                 .filter(ws -> ws.getId() == id)
                 .findFirst()
                 .orElse(null);
+    }
+
+    public boolean hasWiseSayingWithKeyword(WiseSaying ws, String keywordType, String keyword) {
+        // 검색 기반이 없는 경우
+        boolean isSearch = keywordType != null && keyword != null;
+        if (!isSearch) return true;
+
+        // type 없이 키워드만 있은 경우
+        boolean onlyKeyword = keywordType == null && keyword != null;
+        if (onlyKeyword) {
+            return ws.getContent().toLowerCase().contains(keyword.toLowerCase()) ||
+                   ws.getAuthor().toLowerCase().contains(keyword.toLowerCase());
+        }
+
+        // type과 키워드가 모두 있는 경우
+        String field = keywordType.equals("content") ? ws.getContent() : ws.getAuthor();
+        return field.toLowerCase().contains(keyword.toLowerCase());
     }
 }
