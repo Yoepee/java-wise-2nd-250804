@@ -3,6 +3,9 @@ package com.back.standard.util;
 import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 public class Util {
     public static class file {
@@ -17,6 +20,18 @@ public class Util {
 
         public static boolean exists(String filePath) {
             return Files.exists(getPath(filePath));
+        }
+
+        public static boolean notExists(String filePath) {
+            return !exists(filePath);
+        }
+
+        public static String get(String filePath, String defaultValue) {
+            try {
+                return Files.readString(getPath(filePath));
+            } catch (IOException e) {
+                return defaultValue;
+            }
         }
 
         public static void set(String filePath, String content) {
@@ -67,6 +82,72 @@ public class Util {
             } catch (IOException e) {
                 return false;
             }
+        }
+    }
+
+    public static class json {
+        public static String toString(List<Map<String, Object>> mapList) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("[\n");
+            mapList.forEach(map -> {
+                sb.append("  ").append(toString(map)).append(",\n");
+            });
+
+            if (sb.length() > 2) {
+                sb.setLength(sb.length() - 2); // 마지막 쉼표 제거
+            }
+
+            sb.append("\n");
+            sb.append("]");
+
+            return sb.toString();
+        }
+
+        public static String toString(Map<String, Object> map) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("{\n");
+            map.forEach((key, value) -> {
+                sb.append("    ");
+                sb.append("\"").append(key).append("\": ");
+                if (value instanceof String) {
+                    sb.append("\"").append(value).append("\"");
+                } else {
+                    sb.append(value);
+                }
+                sb.append(",\n");
+            });
+            if (sb.length() > 2) {
+                sb.setLength(sb.length() - 2); // 마지막 쉼표 제거
+            }
+            sb.append("\n}");
+            return sb.toString();
+        }
+
+        public static Map<String, Object> toMap(String json) {
+            Map<String, Object> map = new LinkedHashMap<>();
+            json = json.substring(1, json.length() -1);
+            String[] entries = json.split(",\n");
+
+            for (String entry : entries) {
+                String[] keyValue = entry.split(": ");
+                if (keyValue.length == 2) {
+                    String key = keyValue[0].trim().replace("\"", "");
+                    String value = keyValue[1].trim();
+                    boolean valueIsString = value.startsWith("\"") && value.endsWith("\"");
+                    if (valueIsString) value = value.substring(1, value.length() - 1);
+
+                    if (valueIsString) {
+                        map.put(key, value);
+                    } else if (value.equals("true") || value.equals("false")) {
+                        map.put(key, value.equals("true"));
+                    } else if (value.contains(".")) {
+                        map.put(key, Double.parseDouble(value));
+                    } else {
+                        map.put(key, Integer.parseInt(value));
+                    }
+                }
+            }
+            return map;
         }
     }
 }
