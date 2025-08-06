@@ -3,8 +3,8 @@ package com.back.domain.wiseSaying.service;
 import com.back.AppContext;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.repository.WiseSayingRepository;
-
-import java.util.List;
+import com.back.standard.dto.Page;
+import com.back.standard.dto.Pageable;
 
 public class WiseSayingService {
     WiseSayingRepository wiseSayingRepository;
@@ -36,8 +36,8 @@ public class WiseSayingService {
     public int getWiseSayingCount(String keywordType, String keyword) {
         return wiseSayingRepository.getWiseSayingCount(keywordType, keyword);
     }
-    public List<WiseSaying> getWiseSayings(int offset, int limit, String keywordType, String keyword) {
-        return wiseSayingRepository.getWiseSayings(offset, limit, keywordType, keyword);
+    public Page<WiseSaying> getWiseSayings(Pageable pageable, String keywordType, String keyword) {
+        return wiseSayingRepository.getWiseSayings(pageable, keywordType, keyword);
     }
     public WiseSaying findWiseSayingById(int id) {
         return wiseSayingRepository.findWiseSayingById(id);

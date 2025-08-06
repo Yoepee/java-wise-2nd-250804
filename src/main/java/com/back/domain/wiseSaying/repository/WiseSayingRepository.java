@@ -1,6 +1,8 @@
 package com.back.domain.wiseSaying.repository;
 
 import com.back.domain.wiseSaying.entity.WiseSaying;
+import com.back.standard.dto.Page;
+import com.back.standard.dto.Pageable;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -39,13 +41,17 @@ public class WiseSayingRepository {
                 .count();
     }
 
-    public List<WiseSaying> getWiseSayings(int offset, int limit, String keywordType, String keyword) {
-        return wiseSayings.stream()
+    public Page<WiseSaying> getWiseSayings(Pageable pageable, String keywordType, String keyword) {
+        List<WiseSaying> wiseSayingList = wiseSayings.stream()
                 .filter(ws -> hasWiseSayingWithKeyword(ws, keywordType, keyword))
                 .sorted((a, b) -> b.getId() - a.getId())
-                .skip(offset)
-                .limit(limit)
+                .skip((pageable.getPage() - 1) * pageable.getSize())
+                .limit(pageable.getSize())
                 .toList();
+        int totalCount = getWiseSayingCount(keywordType, keyword);
+        int totalPage = (int) Math.ceil((double) totalCount / pageable.getSize());
+
+        return new Page<>(totalCount, totalCount, pageable.getPage(), pageable.getSize(), wiseSayingList);
     }
 
     public WiseSaying findWiseSayingById(int id) {

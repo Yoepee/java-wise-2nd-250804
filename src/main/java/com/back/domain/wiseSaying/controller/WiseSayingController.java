@@ -4,8 +4,9 @@ import com.back.AppContext;
 import com.back.Rq;
 import com.back.domain.wiseSaying.entity.WiseSaying;
 import com.back.domain.wiseSaying.service.WiseSayingService;
+import com.back.standard.dto.Page;
+import com.back.standard.dto.Pageable;
 
-import java.util.List;
 import java.util.Scanner;
 
 public class WiseSayingController {
@@ -64,8 +65,7 @@ public class WiseSayingController {
         }
     }
 
-    public void printWiseSayingList(int pageSize, Rq rq) {
-        int page = rq.getParamAsInt("page", 1);
+    public void printWiseSayingList(Rq rq) {
         String keywordType = rq.getParam("keywordType", null);
         String keyword = rq.getParam("keyword", null);
         if (keywordType!= null && !(keywordType.equals("content") || keywordType.equals("author"))) {
@@ -73,15 +73,16 @@ public class WiseSayingController {
             return;
         }
 
-        int totalWiseSayingCount = wiseSayingService.getWiseSayingCount(keywordType, keyword);
-        if (totalWiseSayingCount == 0) {
-            System.out.println("등록된 명언이 없습니다.");
+        int page = rq.getParamAsInt("page", 1);
+        int pageSize = rq.getParamAsInt("pageSize", 5);
+        Page<WiseSaying> wiseSayingPage = wiseSayingService.getWiseSayings(new Pageable(page, pageSize), keywordType, keyword);
+        if (page < 1 || page > wiseSayingPage.getTotalPage()) {
+            System.out.println("유효하지 않은 페이지입니다. (1 ~ %d)".formatted(wiseSayingPage.getTotalPage()));
             return;
         }
 
-        int totalPages = (int) Math.ceil((double) totalWiseSayingCount / pageSize);
-        if (page < 1 || page > totalPages) {
-            System.out.println("유효하지 않은 페이지입니다. (1 ~ %d)".formatted(totalPages));
+        if (wiseSayingPage.getTotalCount() == 0) {
+            System.out.println("등록된 명언이 없습니다.");
             return;
         }
 
@@ -93,14 +94,12 @@ public class WiseSayingController {
             System.out.println("-------------------------");
         }
 
-        int offset = (page - 1) * pageSize;
-        List<WiseSaying> wiseSayings = wiseSayingService.getWiseSayings(offset, pageSize, keywordType, keyword);
         System.out.println("번호 / 작가 / 명언 / 작성일 / 수정일");
         System.out.println("-------------------------");
-        for (WiseSaying ws : wiseSayings) {
+        for (WiseSaying ws : wiseSayingPage.getContents()) {
             System.out.println("%d / %s / %s / %s / %s".formatted(ws.getId(), ws.getAuthor(), ws.getContent(), ws.getCreateDate(), ws.getModifyDate()));
         }
-        printWiseSayingPage(page, totalPages);
+        printWiseSayingPage(wiseSayingPage.getPageNumber(), wiseSayingPage.getTotalPage());
     }
 
     public void printWiseSayingPage(int page, int totalPages) {
