@@ -51,7 +51,7 @@ public class WiseSayingRepository {
         int totalCount = getWiseSayingCount(keywordType, keyword);
         int totalPage = (int) Math.ceil((double) totalCount / pageable.getSize());
 
-        return new Page<>(totalCount, totalCount, pageable.getPage(), pageable.getSize(), wiseSayingList);
+        return new Page<>(totalCount, totalPage, pageable.getPage(), pageable.getSize(), wiseSayingList);
     }
 
     public WiseSaying findWiseSayingById(int id) {

@@ -33,6 +33,22 @@ public class Util {
                 return defaultValue;
             }
         }
+        public static int getAsInt(String filePath, int defaultValue) {
+            String content = get(filePath, String.valueOf(defaultValue));
+            if (content == null || content.isEmpty()) {
+                return defaultValue;
+            }
+
+            try {
+                return Integer.parseInt(content);
+            } catch (NumberFormatException e) {
+                return defaultValue;
+            }
+        }
+
+        public static void set(String filePath, int content) {
+            set(filePath, String.valueOf(content));
+        }
 
         public static void set(String filePath, String content) {
             Path path = getPath(filePath);
